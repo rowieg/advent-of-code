@@ -1,6 +1,6 @@
-use std::fs;
+use crate::utils;
 
-fn extract_calorie_packs(string: &str) -> Vec<Vec<i32>> {
+fn extract_calorie_packs(string: String) -> Vec<Vec<i32>> {
     let mut packs_vector = vec![];
     let pattern = "\n\n";
     let packs_iterator = string.split(pattern);
@@ -31,8 +31,7 @@ fn get_max_calories(vector: Vec<i32>) -> i32 {
 }
 
 pub fn get_answer() -> i32 {
-    let content = fs::read_to_string("resources/one.txt").expect("Unable to read file");
-    let content_as_str = content.as_str();
+    let content_as_str = utils::read_file_to_string("resources/one.txt");
     let packs = extract_calorie_packs(content_as_str);
     let calories = sum_up_calories(packs);
     let max = get_max_calories(calories);
@@ -49,7 +48,7 @@ mod tests {
         let second_pack = vec![500, 250];
         let exprected_packs = vec![first_pack, second_pack];
 
-        let string = "1000\n1000\n\n500\n250";
+        let string = String::from("1000\n1000\n\n500\n250");
         let actual_packs = extract_calorie_packs(string);
 
         assert_eq!(exprected_packs, actual_packs)
